@@ -1,15 +1,26 @@
 from src.prompts import SYSTEM_PROMPT
 
-def generar_configuracion():
-    print("Generando configuracion...")
+def generar_configuracion(escenario):
+
+    print("\n=== SYSTEM PROMPT ACTUAL ===\n")
+    print(SYSTEM_PROMPT)
+
+    print("\n=== ESCENARIO RECIBIDO ===\n")
+    print(escenario)
+
+    print("\nGenerando configuracion Cisco IOS...\n")
+
 
 def main():
 
-    print("=== GENERADOR CISCO IOS ===")
+    print("===================================")
+    print(" GENERADOR INTELIGENTE CISCO IOS ")
+    print("===================================\n")
 
-    entrada = input("Describe el escenario: ")
+    escenario = input("Describe el escenario de red: ")
 
-    generar_configuracion()
+    generar_configuracion(escenario)
+
 
 if __name__ == "__main__":
     main()

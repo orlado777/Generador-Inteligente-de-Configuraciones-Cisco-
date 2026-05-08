@@ -53,3 +53,12 @@ Generador-Inteligente-de-Configuraciones-Cisco/
 ├── .gitignore
 ├── .env.example
 └── README.md
+```
+---
+
+# Justificación de Parámetros del Modelo
+
+Para cumplir con los requerimientos de la evaluación, se han configurado los siguientes parámetros en la API de Groq:
+
+* [cite_start]**Temperature (0.2):** Se seleccionó un valor bajo para garantizar que las configuraciones de red sean determinísticas y precisas. [cite_start]En este contexto, un valor cercano a 0 evita que la IA genere comandos creativos o invente sintaxis, asegurando que el modelo se ciña estrictamente a los estándares de Cisco IOS  .
+* [cite_start]**Max Tokens (800+):** Se definió este límite mínimo para permitir la generación de configuraciones completas sin cortes. [cite_start]Esto es esencial para escenarios que requieren múltiples líneas de comandos, como el anuncio de varias redes en OSPF o la creación de extensas listas de VLANs.

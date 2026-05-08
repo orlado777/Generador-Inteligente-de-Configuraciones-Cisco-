@@ -1,0 +1,13 @@
+```
+enable
+configure terminal
+vlan 20
+name VLAN20
+exit
+interface fastethernet 0/1
+switchport mode trunk
+switchport trunk allowed vlan 20
+exit
+exit
+write memory
+```

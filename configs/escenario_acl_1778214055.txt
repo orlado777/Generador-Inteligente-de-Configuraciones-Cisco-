@@ -1,0 +1,7 @@
+```
+enable
+configure terminal
+access-list 101 permit ip 10.2.3.0 0.0.0.255 any
+exit
+write memory
+```

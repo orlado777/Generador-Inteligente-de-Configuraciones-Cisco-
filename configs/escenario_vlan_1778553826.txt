@@ -1,0 +1,18 @@
+```
+enable
+configure terminal
+vlan 10
+name VLAN10
+exit
+interface fastethernet 0/1
+switchport mode trunk
+switchport trunk allowed vlan 10
+exit
+interface fastethernet 0/2
+switchport mode trunk
+switchport trunk allowed vlan 10
+exit
+end
+write memory
+! Configuración de VLAN 10 y trunking en switch Cisco
+```

@@ -1,0 +1,37 @@
+ip subnet-zero
+!
+ip address 192.168.2.1 255.255.255.32
+!
+interface loopback 0
+ip address 192.168.2.5 255.255.255.224
+!
+interface gigabitethernet 0/0
+ip address 192.168.2.9 255.255.255.224
+!
+interface gigabitethernet 0/1
+ip address 192.168.2.17 255.255.255.224
+!
+interface gigabitethernet 0/2
+ip address 192.168.2.25 255.255.255.224
+!
+interface gigabitethernet 0/3
+ip address 192.168.2.33 255.255.255.224
+!
+interface gigabitethernet 0/4
+ip address 192.168.2.41 255.255.255.224
+!
+interface gigabitethernet 0/5
+ip address 192.168.2.49 255.255.255.224
+!
+interface gigabitethernet 0/6
+ip address 192.168.2.57 255.255.255.224
+!
+interface gigabitethernet 0/7
+ip address 192.168.2.65 255.255.255.224
+!
+ip route 192.168.2.0 255.255.255.0 null0
+!
+show ip interface brief
+!
+show ip route
+!

@@ -1,0 +1,20 @@
+```
+! No se puede hacer subnetting de /32, es una dirección IP de host
+! Se asume que se quiere hacer subnetting de 192.168.1.0/24
+
+enable
+configure terminal
+ip subnet-zero
+!
+interface fastethernet 0/0
+ip address 192.168.1.1 255.255.255.0
+no shutdown
+exit
+interface fastethernet 0/1
+ip address 192.168.1.2 255.255.255.0
+no shutdown
+exit
+end
+write memory
+! 
+```

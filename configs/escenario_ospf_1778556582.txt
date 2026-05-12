@@ -1,0 +1,26 @@
+router ospf 67
+ network 0.0.0.3 0.0.0.3 area 1
+! Configuración básica de OSPF
+exit
+! Salir del modo de configuración del router OSPF
+enable password cisco
+! Establecer contraseña de enable
+service password-encryption
+! Encriptar contraseñas
+! Configuración básica del router
+hostname Router-OSPF
+! Establecer nombre del router
+interface Loopback0
+ ip address 0.0.0.3 255.255.255.255
+! Configuración de la interfaz Loopback0
+exit
+! Salir del modo de configuración de la interfaz
+router ospf 67
+ log-adjacency-changes
+! Registrar cambios en las adjacencias OSPF
+exit
+! Salir del modo de configuración del router OSPF
+end
+! Salir del modo de configuración
+write memory
+! Guardar la configuración en la memoria no volátil

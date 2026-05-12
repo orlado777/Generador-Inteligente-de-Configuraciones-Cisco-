@@ -2,6 +2,7 @@ from groq import Groq
 from dotenv import load_dotenv
 import os
 import time
+import ipaddress
 
 # =========================
 # CARGAR VARIABLES ENTORNO
@@ -39,7 +40,6 @@ Reglas:
 - No uses bloques ``` .
 - Usa comentarios IOS con ! cuando sea necesario.
 - Toda salida debe ser configuración Cisco IOS real.
-- Configura interfaces, VLANs, OSPF, subnetting o ACL según lo solicitado.
 """
     }
 ]
@@ -64,7 +64,6 @@ def guardar_config(texto, tipo):
         archivo.write(texto)
 
     print(f"\n\n✔ Configuración guardada en: {nombre}")
-
 
 # =========================
 # GENERAR RESPUESTA IA
@@ -115,7 +114,7 @@ def generar(prompt, tipo):
         error = str(e)
 
         if "429" in error:
-            print("\nERROR: Rate limit excedido en Groq")
+            print("\nERROR: Rate limit excedido")
 
         elif "401" in error:
             print("\nERROR: API Key inválida")
@@ -125,7 +124,6 @@ def generar(prompt, tipo):
 
         else:
             print("\nERROR GENERAL:", e)
-
 
 # =========================
 # VALIDAR VLAN
@@ -143,7 +141,6 @@ def validar_vlan(vlan):
 
     return True
 
-
 # =========================
 # VALIDAR OSPF
 # =========================
@@ -151,7 +148,6 @@ def validar_vlan(vlan):
 def validar_ospf(ospf):
 
     return ospf.isdigit()
-
 
 # =========================
 # VALIDAR PREFIJO
@@ -169,6 +165,77 @@ def validar_prefijo(prefijo):
 
     return True
 
+# =========================
+# VALIDAR IP
+# =========================
+
+def validar_ip(ip):
+
+    try:
+
+        ipaddress.ip_address(ip)
+
+        return True
+
+    except:
+
+        return False
+
+# =========================
+# VALIDAR RED
+# =========================
+
+def validar_red(red, prefijo):
+
+    try:
+
+        prefijo = int(prefijo)
+
+        network = ipaddress.IPv4Network(
+            (red, prefijo),
+            strict=True
+        )
+
+        return True
+
+    except:
+
+        return False
+
+# =========================
+# VALIDAR WILDCARD
+# =========================
+
+def validar_wildcard(wildcard):
+
+    partes = wildcard.split(".")
+
+    if len(partes) != 4:
+        return False
+
+    for p in partes:
+
+        if not p.isdigit():
+            return False
+
+        if int(p) < 0 or int(p) > 255:
+            return False
+
+    return True
+
+# =========================
+# VALIDAR PUERTOS
+# =========================
+
+def validar_puertos(puertos):
+
+    if puertos == "":
+        return False
+
+    if "Fa" not in puertos and "Gi" not in puertos:
+        return False
+
+    return True
 
 # =========================
 # MENÚ PRINCIPAL
@@ -235,7 +302,15 @@ def main():
 
             nombre = input("Nombre VLAN: ")
 
+            if nombre == "":
+                print("ERROR: Nombre VLAN inválido")
+                continue
+
             puertos = input("Puertos (ej Fa0/1-5): ")
+
+            if not validar_puertos(puertos):
+                print("ERROR: Puertos inválidos")
+                continue
 
             prompt = f"""
 Configura una VLAN Cisco IOS.
@@ -268,9 +343,21 @@ Configura:
 
             red = input("Red a anunciar: ")
 
+            if not validar_ip(red):
+                print("ERROR: Dirección IP inválida")
+                continue
+
             wildcard = input("Wildcard mask: ")
 
+            if not validar_wildcard(wildcard):
+                print("ERROR: Wildcard inválida")
+                continue
+
             area = input("Área OSPF: ")
+
+            if not area.isdigit():
+                print("ERROR: Área inválida")
+                continue
 
             prompt = f"""
 Configura OSPF Cisco IOS.
@@ -300,9 +387,17 @@ Genera configuración completa IOS.
                 print("ERROR: Prefijo inválido")
                 continue
 
+            if not validar_red(red, prefijo):
+                print("ERROR: Dirección de red inválida")
+                continue
+
             cantidad = input("Cantidad de subredes: ")
 
             if not cantidad.isdigit():
+                print("ERROR: Cantidad inválida")
+                continue
+
+            if int(cantidad) <= 0:
                 print("ERROR: Cantidad inválida")
                 continue
 
@@ -330,7 +425,15 @@ Debes:
 
             red = input("Red origen: ")
 
+            if not validar_ip(red):
+                print("ERROR: Dirección IP inválida")
+                continue
+
             wildcard = input("Wildcard: ")
+
+            if not validar_wildcard(wildcard):
+                print("ERROR: Wildcard inválida")
+                continue
 
             prompt = f"""
 Genera una ACL Cisco IOS.
@@ -348,7 +451,6 @@ Aplicar ACL en interfaz.
         else:
 
             print("ERROR: Opción inválida")
-
 
 # =========================
 # EJECUCIÓN PRINCIPAL

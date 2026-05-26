@@ -1,7 +1,0 @@
-access-list 1 permit 192.168.1.0 0.0.0.3
-! Crear ACL que permite tráfico desde la red 192.168.1.0/30
-interface Ethernet0
- ip access-group 1 in
-! Aplicar la ACL en la interfaz Ethernet0 en dirección de entrada
-exit
-! Salir del modo de configuración de la interfaz
